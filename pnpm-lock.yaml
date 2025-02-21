@@ -6,10 +6,23 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
+      prettier:
+        specifier: ^3.4.2
+        version: 3.5.1
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
 
   apps/api:
     dependencies:
+      '@autospacce/sample-lib':
+        specifier: workspace:^
+        version: link:../../libs/sample-lib
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.0.10(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -104,6 +117,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@autospacce/sample-lib':
+        specifier: workspace:^
+        version: link:../../libs/sample-lib
       next:
         specifier: 15.1.7
         version: 15.1.7(react-dom@19.0.0)(react@19.0.0)
@@ -141,6 +157,8 @@ importers:
       typescript:
         specifier: ^5
         version: 5.7.3
+
+  libs/sample-lib: {}
 
 packages:
 
@@ -4757,6 +4775,12 @@ packages:
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: true
+
+  /husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
     dev: true
 
   /iconv-lite@0.4.24:
