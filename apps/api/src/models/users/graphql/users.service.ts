@@ -93,7 +93,7 @@ export class UsersService {
 
     const isPasswordValid = bcrypt.compareSync(
       password,
-      user.Credentials.passwordHash
+      user.Credentials.passwordHash,
     );
 
     if (!isPasswordValid) {
