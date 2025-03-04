@@ -1,16 +1,20 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import * as bcrypt from "bcryptjs";
-import { PrismaService } from "src/common/prisma/prisma.service";
-import { v4 as uuid } from "uuid";
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
+import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
+import { PrismaService } from 'src/common/prisma/prisma.service'
 import {
   LoginInput,
   LoginOutput,
   RegisterWithCredentialsInput,
   RegisterWithProviderInput,
-} from "./dtos/create-user.input";
-import { FindManyUserArgs, FindUniqueUserArgs } from "./dtos/find.args";
-import { UpdateUserInput } from "./dtos/update-user.input";
+} from './dtos/create-user.input'
+import { UpdateUserInput } from './dtos/update-user.input'
+import * as bcrypt from 'bcryptjs'
+import { v4 as uuid } from 'uuid'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class UsersService {
@@ -18,6 +22,21 @@ export class UsersService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
+  registerWithProvider({ image, name, uid, type }: RegisterWithProviderInput) {
+    return this.prisma.user.create({
+      data: {
+        uid,
+        name,
+        image,
+        AuthProvider: {
+          create: {
+            type,
+          },
+        },
+      },
+    })
+  }
+
   async registerWithCredentials({
     email,
     name,
@@ -26,16 +45,17 @@ export class UsersService {
   }: RegisterWithCredentialsInput) {
     const existingUser = await this.prisma.credentials.findUnique({
       where: { email },
-    });
+    })
 
     if (existingUser) {
-      throw new Error("User already exists with this email.");
+      throw new BadRequestException('User already exists with this email.')
     }
 
-    const salt = bcrypt.genSaltSync();
-    const passwordHash = bcrypt.hashSync(password, salt);
+    // Hash the password
+    const salt = bcrypt.genSaltSync()
+    const passwordHash = bcrypt.hashSync(password, salt)
 
-    const uid = uuid();
+    const uid = uuid()
 
     return this.prisma.user.create({
       data: {
@@ -50,84 +70,66 @@ export class UsersService {
         },
         AuthProvider: {
           create: {
-            type: "CREDENTIALS",
+            type: 'CREDENTIALS',
           },
         },
       },
       include: {
         Credentials: true,
       },
-    });
-  }
-
-  registerWithProvider({ name, uid, image, type }: RegisterWithProviderInput) {
-    return this.prisma.user.create({
-      data: {
-        uid,
-        name,
-        image,
-        AuthProvider: {
-          create: {
-            type,
-          },
-        },
-      },
-    });
+    })
   }
 
   async login({ email, password }: LoginInput): Promise<LoginOutput> {
     const user = await this.prisma.user.findFirst({
       where: {
-        Credentials: {
-          email,
-        },
+        Credentials: { email },
       },
       include: {
         Credentials: true,
       },
-    });
+    })
 
-    if (!user || !user.name || !user.Credentials?.passwordHash) {
-      throw new UnauthorizedException("Invalid email or password.");
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password.')
     }
 
     const isPasswordValid = bcrypt.compareSync(
       password,
       user.Credentials.passwordHash,
-    );
+    )
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException("Invalid email or password.");
+      throw new UnauthorizedException('Invalid email or password.')
     }
 
     const jwtToken = this.jwtService.sign(
       { uid: user.uid },
       {
-        algorithm: "HS256",
+        algorithm: 'HS256',
       },
-    );
+    )
 
-    // @ts-expect-error Type mismatch between Prisma User model and GraphQL User type
-    return { token: jwtToken, user };
+    return { token: jwtToken, user }
   }
 
   findAll(args: FindManyUserArgs) {
-    return this.prisma.user.findMany(args);
+    return this.prisma.user.findMany(args)
   }
 
   findOne(args: FindUniqueUserArgs) {
-    return this.prisma.user.findUnique(args);
+    return this.prisma.user.findUnique(args)
   }
 
   update(updateUserInput: UpdateUserInput) {
-    const { uid, ...data } = updateUserInput;
+    const { uid, ...data } = updateUserInput
     return this.prisma.user.update({
       where: { uid },
       data: data,
-    });
+    })
   }
 
   remove(args: FindUniqueUserArgs) {
-    return this.prisma.user.delete(args);
+    return this.prisma.user.delete(args)
   }
 }
