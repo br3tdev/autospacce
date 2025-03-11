@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common'
-import { FindManyGarageArgs, FindUniqueGarageArgs } from './dtos/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateGarageInput } from './dtos/create-garage.input'
-import { UpdateGarageInput } from './dtos/update-garage.input'
-import { CreateSlotInputWithoutGarageId } from 'src/models/slots/graphql/dtos/create-slot.input'
-import { Prisma, SlotType } from '@prisma/client'
+import { Injectable } from "@nestjs/common"
+import { FindManyGarageArgs, FindUniqueGarageArgs } from "./dtos/find.args"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { CreateGarageInput } from "./dtos/create-garage.input"
+import { UpdateGarageInput } from "./dtos/update-garage.input"
+import { CreateSlotInputWithoutGarageId } from "src/models/slots/graphql/dtos/create-slot.input"
+import { Prisma, SlotType } from "@prisma/client"
 
 @Injectable()
 export class GaragesService {
@@ -19,7 +19,7 @@ export class GaragesService {
   }: CreateGarageInput & { companyId: number }) {
     // Check if any slot has a count greater than 20
     if (Slots.some((slot) => slot.count > 10)) {
-      throw new Error('Slot count cannot be more than 20 for any slot type.')
+      throw new Error("Slot count cannot be more than 20 for any slot type.")
     }
     return this.prisma.$transaction(async (tx) => {
       const createdGarage = await tx.garage.create({

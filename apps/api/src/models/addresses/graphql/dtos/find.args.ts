@@ -1,11 +1,11 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { AddressOrderByWithRelationInput } from './order-by.args'
-import { AddressWhereInput, AddressWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { ArgsType, Field, registerEnumType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { AddressOrderByWithRelationInput } from "./order-by.args"
+import { AddressWhereInput, AddressWhereUniqueInput } from "./where.args"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 registerEnumType(Prisma.AddressScalarFieldEnum, {
-  name: 'AddressScalarFieldEnum',
+  name: "AddressScalarFieldEnum",
 })
 
 @ArgsType()
@@ -13,7 +13,7 @@ class FindManyAddressArgsStrict
   implements
     RestrictProperties<
       FindManyAddressArgsStrict,
-      Omit<Prisma.AddressFindManyArgs, 'include' | 'select'>
+      Omit<Prisma.AddressFindManyArgs, "include" | "select">
     >
 {
   where: AddressWhereInput

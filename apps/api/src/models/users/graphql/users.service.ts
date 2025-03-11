@@ -2,19 +2,19 @@ import {
   BadRequestException,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common'
-import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
+} from "@nestjs/common"
+import { FindManyUserArgs, FindUniqueUserArgs } from "./dtos/find.args"
+import { PrismaService } from "src/common/prisma/prisma.service"
 import {
   LoginInput,
   LoginOutput,
   RegisterWithCredentialsInput,
   RegisterWithProviderInput,
-} from './dtos/create-user.input'
-import { UpdateUserInput } from './dtos/update-user.input'
-import * as bcrypt from 'bcryptjs'
-import { v4 as uuid } from 'uuid'
-import { JwtService } from '@nestjs/jwt'
+} from "./dtos/create-user.input"
+import { UpdateUserInput } from "./dtos/update-user.input"
+import * as bcrypt from "bcryptjs"
+import { v4 as uuid } from "uuid"
+import { JwtService } from "@nestjs/jwt"
 
 @Injectable()
 export class UsersService {
@@ -48,7 +48,7 @@ export class UsersService {
     })
 
     if (existingUser) {
-      throw new BadRequestException('User already exists with this email.')
+      throw new BadRequestException("User already exists with this email.")
     }
 
     // Hash the password
@@ -70,7 +70,7 @@ export class UsersService {
         },
         AuthProvider: {
           create: {
-            type: 'CREDENTIALS',
+            type: "CREDENTIALS",
           },
         },
       },
@@ -91,7 +91,7 @@ export class UsersService {
     })
 
     if (!user) {
-      throw new UnauthorizedException('Invalid email or password.')
+      throw new UnauthorizedException("Invalid email or password.")
     }
 
     const isPasswordValid = bcrypt.compareSync(
@@ -100,13 +100,13 @@ export class UsersService {
     )
 
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid email or password.')
+      throw new UnauthorizedException("Invalid email or password.")
     }
 
     const jwtToken = this.jwtService.sign(
       { uid: user.uid },
       {
-        algorithm: 'HS256',
+        algorithm: "HS256",
       },
     )
 

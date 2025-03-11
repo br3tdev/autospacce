@@ -1,9 +1,9 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
-import { CustomerOrderByWithRelationInput } from 'src/models/customers/graphql/dtos/order-by.args'
-import { ManagerOrderByWithRelationInput } from 'src/models/managers/graphql/dtos/order-by.args'
-import { ValetOrderByWithRelationInput } from 'src/models/valets/graphql/dtos/order-by.args'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { RestrictProperties } from "src/common/dtos/common.input"
+import { CustomerOrderByWithRelationInput } from "src/models/customers/graphql/dtos/order-by.args"
+import { ManagerOrderByWithRelationInput } from "src/models/managers/graphql/dtos/order-by.args"
+import { ValetOrderByWithRelationInput } from "src/models/valets/graphql/dtos/order-by.args"
 
 @InputType()
 export class UserOrderByWithRelationInputStrict
@@ -12,7 +12,7 @@ export class UserOrderByWithRelationInputStrict
       UserOrderByWithRelationInputStrict,
       Omit<
         Prisma.UserOrderByWithRelationInput,
-        'Credentials' | 'AuthProvider' | 'Admin' | 'image'
+        "Credentials" | "AuthProvider" | "Admin" | "image"
       >
     >
 {

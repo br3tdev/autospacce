@@ -7,25 +7,25 @@ import {
   Param,
   Delete,
   Query,
-} from '@nestjs/common'
+} from "@nestjs/common"
 
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { ApiTags } from '@nestjs/swagger'
-import { CreateAddress } from './dtos/create.dto'
-import { AddressQueryDto } from './dtos/query.dto'
-import { UpdateAddress } from './dtos/update.dto'
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { ApiTags } from "@nestjs/swagger"
+import { CreateAddress } from "./dtos/create.dto"
+import { AddressQueryDto } from "./dtos/query.dto"
+import { UpdateAddress } from "./dtos/update.dto"
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
-} from '@nestjs/swagger'
-import { AddressEntity } from './entity/address.entity'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
-import { checkRowLevelPermission } from 'src/common/auth/util'
+} from "@nestjs/swagger"
+import { AddressEntity } from "./entity/address.entity"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { GetUserType } from "src/common/types"
+import { checkRowLevelPermission } from "src/common/auth/util"
 
-@ApiTags('addresses')
-@Controller('addresses')
+@ApiTags("addresses")
+@Controller("addresses")
 export class AddressesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -54,22 +54,22 @@ export class AddressesController {
     return this.prisma.address.findMany({
       ...(skip ? { skip: +skip } : null),
       ...(take ? { take: +take } : null),
-      ...(sortBy ? { orderBy: { [sortBy]: order || 'asc' } } : null),
+      ...(sortBy ? { orderBy: { [sortBy]: order || "asc" } } : null),
     })
   }
 
   @ApiOkResponse({ type: AddressEntity })
-  @Get(':id')
-  findOne(@Param('id') id: number) {
+  @Get(":id")
+  findOne(@Param("id") id: number) {
     return this.prisma.address.findUnique({ where: { id } })
   }
 
   @ApiOkResponse({ type: AddressEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Patch(':id')
+  @Patch(":id")
   async update(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() updateAddressDto: UpdateAddress,
     @GetUser() user: GetUserType,
   ) {
@@ -91,8 +91,8 @@ export class AddressesController {
 
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
+  @Delete(":id")
+  async remove(@Param("id") id: number, @GetUser() user: GetUserType) {
     const address = await this.prisma.address.findUnique({
       where: { id },
       include: {

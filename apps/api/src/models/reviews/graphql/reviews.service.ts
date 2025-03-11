@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common'
-import { FindManyReviewArgs, FindUniqueReviewArgs } from './dtos/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateReviewInput } from './dtos/create-review.input'
-import { UpdateReviewInput } from './dtos/update-review.input'
+import { Injectable } from "@nestjs/common"
+import { FindManyReviewArgs, FindUniqueReviewArgs } from "./dtos/find.args"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { CreateReviewInput } from "./dtos/create-review.input"
+import { UpdateReviewInput } from "./dtos/update-review.input"
 
 @Injectable()
 export class ReviewsService {

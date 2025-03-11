@@ -5,8 +5,8 @@ import {
   InputType,
   ObjectType,
   registerEnumType,
-} from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+} from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
 
 export type RestrictProperties<T, U> = {
   [K in keyof T]: K extends keyof U ? T[K] : never
@@ -25,7 +25,7 @@ export class DateTimeFilter {
 }
 
 registerEnumType(Prisma.QueryMode, {
-  name: 'QueryMode',
+  name: "QueryMode",
 })
 
 // implements Required<Prisma.StringFilter>
@@ -81,7 +81,7 @@ export class FloatFilter {
 }
 
 registerEnumType(Prisma.SortOrder, {
-  name: 'SortOrder',
+  name: "SortOrder",
 })
 
 @ObjectType()

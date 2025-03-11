@@ -1,8 +1,8 @@
-import { Slot } from '@prisma/client'
+import { Slot } from "@prisma/client";
 
 const randomRange = (min: number, max: number) => {
-  return Math.random() * (max - min) + min
-}
+  return Math.random() * (max - min) + min;
+};
 
 const slotRanges = {
   CAR: {
@@ -33,19 +33,19 @@ const slotRanges = {
     pricePerHour: { min: 2, max: 5 },
     count: { min: 2, max: 6 },
   },
-}
+};
 
-export const generateSlots = ({ type }: Pick<Slot, 'type'>) => {
-  const slots = []
-  const ranges = slotRanges[type]
+export const generateSlots = ({ type }: Pick<Slot, "type">) => {
+  const slots = [];
+  const ranges = slotRanges[type];
 
-  const count = randomRange(ranges.count.min, ranges.count.max)
-  const length = randomRange(ranges.length.min, ranges.length.max)
-  const width = randomRange(ranges.width.min, ranges.width.max)
-  const height = randomRange(ranges.height.min, ranges.height.max)
+  const count = randomRange(ranges.count.min, ranges.count.max);
+  const length = randomRange(ranges.length.min, ranges.length.max);
+  const width = randomRange(ranges.width.min, ranges.width.max);
+  const height = randomRange(ranges.height.min, ranges.height.max);
   const pricePerHour = Math.floor(
     randomRange(ranges.pricePerHour.min, ranges.pricePerHour.max),
-  )
+  );
   for (let i = 0; i < count; i++) {
     slots.push({
       displayName: `${type} ${i + 1}`,
@@ -54,7 +54,7 @@ export const generateSlots = ({ type }: Pick<Slot, 'type'>) => {
       width,
       height,
       type,
-    })
+    });
   }
-  return slots
-}
+  return slots;
+};

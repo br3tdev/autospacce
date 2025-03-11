@@ -5,32 +5,32 @@ import {
   Args,
   ResolveField,
   Parent,
-} from '@nestjs/graphql'
-import { GaragesService } from './garages.service'
-import { Garage, SlotTypeCount } from './entity/garage.entity'
-import { FindManyGarageArgs, FindUniqueGarageArgs } from './dtos/find.args'
-import { CreateGarageInput } from './dtos/create-garage.input'
-import { UpdateGarageInput } from './dtos/update-garage.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Slot } from 'src/models/slots/graphql/entity/slot.entity'
-import { Address } from 'src/models/addresses/graphql/entity/address.entity'
-import { Company } from 'src/models/companies/graphql/entity/company.entity'
-import { Verification } from 'src/models/verifications/graphql/entity/verification.entity'
+} from "@nestjs/graphql"
+import { GaragesService } from "./garages.service"
+import { Garage, SlotTypeCount } from "./entity/garage.entity"
+import { FindManyGarageArgs, FindUniqueGarageArgs } from "./dtos/find.args"
+import { CreateGarageInput } from "./dtos/create-garage.input"
+import { UpdateGarageInput } from "./dtos/update-garage.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Slot } from "src/models/slots/graphql/entity/slot.entity"
+import { Address } from "src/models/addresses/graphql/entity/address.entity"
+import { Company } from "src/models/companies/graphql/entity/company.entity"
+import { Verification } from "src/models/verifications/graphql/entity/verification.entity"
 import {
   DateFilterInput,
   GarageFilter,
   MinimalSlotGroupBy,
-} from './dtos/search-filter.input'
+} from "./dtos/search-filter.input"
 import {
   AggregateCountOutput,
   LocationFilterInput,
-} from 'src/common/dtos/common.input'
-import { SlotWhereInput } from 'src/models/slots/graphql/dtos/where.args'
-import { BadRequestException } from '@nestjs/common'
-import { GarageWhereInput } from './dtos/where.args'
+} from "src/common/dtos/common.input"
+import { SlotWhereInput } from "src/models/slots/graphql/dtos/where.args"
+import { BadRequestException } from "@nestjs/common"
+import { GarageWhereInput } from "./dtos/where.args"
 
 @Resolver(() => Garage)
 export class GaragesResolver {
@@ -39,10 +39,10 @@ export class GaragesResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated('manager')
+  @AllowAuthenticated("manager")
   @Mutation(() => Garage)
   async createGarage(
-    @Args('createGarageInput') args: CreateGarageInput,
+    @Args("createGarageInput") args: CreateGarageInput,
     @GetUser() user: GetUserType,
   ) {
     const company = await this.prisma.company.findFirst({
@@ -50,29 +50,29 @@ export class GaragesResolver {
     })
     if (!company?.id) {
       throw new BadRequestException(
-        'No company associated with the manager id.',
+        "No company associated with the manager id.",
       )
     }
 
     return this.garagesService.create({ ...args, companyId: company.id })
   }
 
-  @Query(() => [Garage], { name: 'garages' })
+  @Query(() => [Garage], { name: "garages" })
   findAll(@Args() args: FindManyGarageArgs) {
     return this.garagesService.findAll(args)
   }
 
-  @Query(() => Garage, { name: 'garage' })
+  @Query(() => Garage, { name: "garage" })
   findOne(@Args() args: FindUniqueGarageArgs) {
     return this.garagesService.findOne(args)
   }
 
-  @Query(() => [Garage], { name: 'searchGarages' })
+  @Query(() => [Garage], { name: "searchGarages" })
   async searchGarages(
-    @Args('dateFilter') dateFilter: DateFilterInput,
-    @Args('locationFilter') locationFilter: LocationFilterInput,
-    @Args('slotsFilter', { nullable: true }) slotsFilter: SlotWhereInput,
-    @Args('garageFilter', { nullable: true }) args: GarageFilter,
+    @Args("dateFilter") dateFilter: DateFilterInput,
+    @Args("locationFilter") locationFilter: LocationFilterInput,
+    @Args("slotsFilter", { nullable: true }) slotsFilter: SlotWhereInput,
+    @Args("garageFilter", { nullable: true }) args: GarageFilter,
   ) {
     const { start, end } = dateFilter
     const { ne_lat, ne_lng, sw_lat, sw_lng } = locationFilter
@@ -95,7 +95,7 @@ export class GaragesResolver {
 
     if (startDate.getTime() > endDate.getTime()) {
       throw new BadRequestException(
-        'Start time should be earlier than the end time.',
+        "Start time should be earlier than the end time.",
       )
     }
 
@@ -135,7 +135,7 @@ export class GaragesResolver {
   @ResolveField(() => [SlotTypeCount])
   async slotCounts(@Parent() garage: Garage) {
     const slotCounts = await this.prisma.slot.groupBy({
-      by: ['type'],
+      by: ["type"],
       where: {
         garageId: garage.id,
       },
@@ -151,19 +151,19 @@ export class GaragesResolver {
   }
 
   @ResolveField(() => [MinimalSlotGroupBy], {
-    name: 'availableSlots',
+    name: "availableSlots",
   })
   async availableSlots(
     @Parent() garage: Garage,
-    @Args('slotsFilter', { nullable: true }) slotsFilter: SlotWhereInput,
-    @Args('dateFilter') dateFilter: DateFilterInput,
+    @Args("slotsFilter", { nullable: true }) slotsFilter: SlotWhereInput,
+    @Args("dateFilter") dateFilter: DateFilterInput,
   ) {
     const { start, end } = dateFilter
     const startDate = new Date(start)
     const endDate = new Date(end)
 
     const groupBySlots = await this.prisma.slot.groupBy({
-      by: ['type'],
+      by: ["type"],
       _count: { type: true },
       _min: { pricePerHour: true },
       where: {
@@ -196,7 +196,7 @@ export class GaragesResolver {
   @AllowAuthenticated()
   @Mutation(() => Garage)
   async updateGarage(
-    @Args('updateGarageInput') args: UpdateGarageInput,
+    @Args("updateGarageInput") args: UpdateGarageInput,
     @GetUser() user: GetUserType,
   ) {
     const garage = await this.prisma.garage.findUnique({
@@ -250,10 +250,10 @@ export class GaragesResolver {
   }
 
   @Query(() => AggregateCountOutput, {
-    name: 'garagesCount',
+    name: "garagesCount",
   })
   async garagesCount(
-    @Args('where', { nullable: true })
+    @Args("where", { nullable: true })
     where: GarageWhereInput,
   ) {
     const garages = await this.prisma.garage.aggregate({

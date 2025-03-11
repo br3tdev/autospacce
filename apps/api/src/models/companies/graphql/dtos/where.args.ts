@@ -1,14 +1,14 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
 import {
   DateTimeFilter,
   IntFilter,
   RestrictProperties,
   StringFilter,
-} from 'src/common/dtos/common.input'
-import { GarageListRelationFilter } from 'src/models/garages/graphql/dtos/where.args'
-import { ManagerListRelationFilter } from 'src/models/managers/graphql/dtos/where.args'
-import { ValetListRelationFilter } from 'src/models/valets/graphql/dtos/where.args'
+} from "src/common/dtos/common.input"
+import { GarageListRelationFilter } from "src/models/garages/graphql/dtos/where.args"
+import { ManagerListRelationFilter } from "src/models/managers/graphql/dtos/where.args"
+import { ValetListRelationFilter } from "src/models/valets/graphql/dtos/where.args"
 
 @InputType()
 export class CompanyWhereUniqueInput {

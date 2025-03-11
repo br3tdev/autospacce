@@ -1,14 +1,14 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
 import {
   BoolFilter,
   DateTimeFilter,
   IntFilter,
   RestrictProperties,
   StringFilter,
-} from 'src/common/dtos/common.input'
-import { AdminRelationFilter } from 'src/models/admins/graphql/dtos/where.args'
-import { GarageRelationFilter } from 'src/models/garages/graphql/dtos/where.args'
+} from "src/common/dtos/common.input"
+import { AdminRelationFilter } from "src/models/admins/graphql/dtos/where.args"
+import { GarageRelationFilter } from "src/models/garages/graphql/dtos/where.args"
 
 @InputType()
 export class VerificationWhereUniqueInput {

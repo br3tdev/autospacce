@@ -1,4 +1,4 @@
-import { IsIn, IsNumberString, IsOptional, IsString } from 'class-validator'
+import { IsIn, IsNumberString, IsOptional, IsString } from "class-validator"
 
 export class BaseQueryDto {
   @IsNumberString()
@@ -14,6 +14,6 @@ export class BaseQueryDto {
   search?: string
 
   @IsOptional()
-  @IsIn(['asc', 'desc'])
-  order?: 'asc' | 'desc'
+  @IsIn(["asc", "desc"])
+  order?: "asc" | "desc"
 }

@@ -7,25 +7,25 @@ import {
   Param,
   Delete,
   Query,
-} from '@nestjs/common'
+} from "@nestjs/common"
 
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { ApiTags } from '@nestjs/swagger'
-import { CreateCompany } from './dtos/create.dto'
-import { CompanyQueryDto } from './dtos/query.dto'
-import { UpdateCompany } from './dtos/update.dto'
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { ApiTags } from "@nestjs/swagger"
+import { CreateCompany } from "./dtos/create.dto"
+import { CompanyQueryDto } from "./dtos/query.dto"
+import { UpdateCompany } from "./dtos/update.dto"
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
-} from '@nestjs/swagger'
-import { CompanyEntity } from './entity/company.entity'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { GetUserType } from 'src/common/types'
-import { checkRowLevelPermission } from 'src/common/auth/util'
+} from "@nestjs/swagger"
+import { CompanyEntity } from "./entity/company.entity"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { GetUserType } from "src/common/types"
+import { checkRowLevelPermission } from "src/common/auth/util"
 
-@ApiTags('companies')
-@Controller('companies')
+@ApiTags("companies")
+@Controller("companies")
 export class CompaniesController {
   constructor(private readonly prisma: PrismaService) {}
 
@@ -43,22 +43,22 @@ export class CompaniesController {
     return this.prisma.company.findMany({
       ...(skip ? { skip: +skip } : null),
       ...(take ? { take: +take } : null),
-      ...(sortBy ? { orderBy: { [sortBy]: order || 'asc' } } : null),
+      ...(sortBy ? { orderBy: { [sortBy]: order || "asc" } } : null),
     })
   }
 
   @ApiOkResponse({ type: CompanyEntity })
-  @Get(':id')
-  findOne(@Param('id') id: number) {
+  @Get(":id")
+  findOne(@Param("id") id: number) {
     return this.prisma.company.findUnique({ where: { id } })
   }
 
   @ApiOkResponse({ type: CompanyEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Patch(':id')
+  @Patch(":id")
   async update(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() updateCompanyDto: UpdateCompany,
     @GetUser() user: GetUserType,
   ) {
@@ -78,8 +78,8 @@ export class CompaniesController {
 
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
+  @Delete(":id")
+  async remove(@Param("id") id: number, @GetUser() user: GetUserType) {
     const company = await this.prisma.company.findUnique({
       where: { id },
       include: { Managers: true },

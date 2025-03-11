@@ -5,23 +5,23 @@ import {
   Mutation,
   Args,
   Parent,
-} from '@nestjs/graphql'
-import { BookingsService } from './bookings.service'
-import { Booking } from './entity/booking.entity'
-import { FindManyBookingArgs, FindUniqueBookingArgs } from './dtos/find.args'
-import { CreateBookingInput } from './dtos/create-booking.input'
-import { UpdateBookingInput } from './dtos/update-booking.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Slot } from 'src/models/slots/graphql/entity/slot.entity'
-import { Customer } from 'src/models/customers/graphql/entity/customer.entity'
-import { ValetAssignment } from 'src/models/valet-assignments/graphql/entity/valet-assignment.entity'
-import { AggregateCountOutput } from 'src/common/dtos/common.input'
-import { BookingWhereInput } from './dtos/where.args'
-import { BookingTimeline } from 'src/models/booking-timelines/graphql/entity/booking-timeline.entity'
-import { BadRequestException } from '@nestjs/common'
+} from "@nestjs/graphql"
+import { BookingsService } from "./bookings.service"
+import { Booking } from "./entity/booking.entity"
+import { FindManyBookingArgs, FindUniqueBookingArgs } from "./dtos/find.args"
+import { CreateBookingInput } from "./dtos/create-booking.input"
+import { UpdateBookingInput } from "./dtos/update-booking.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Slot } from "src/models/slots/graphql/entity/slot.entity"
+import { Customer } from "src/models/customers/graphql/entity/customer.entity"
+import { ValetAssignment } from "src/models/valet-assignments/graphql/entity/valet-assignment.entity"
+import { AggregateCountOutput } from "src/common/dtos/common.input"
+import { BookingWhereInput } from "./dtos/where.args"
+import { BookingTimeline } from "src/models/booking-timelines/graphql/entity/booking-timeline.entity"
+import { BadRequestException } from "@nestjs/common"
 
 @Resolver(() => Booking)
 export class BookingsResolver {
@@ -33,21 +33,21 @@ export class BookingsResolver {
   @AllowAuthenticated()
   @Mutation(() => Booking)
   createBooking(
-    @Args('createBookingInput') args: CreateBookingInput,
+    @Args("createBookingInput") args: CreateBookingInput,
     @GetUser() user: GetUserType,
   ) {
     checkRowLevelPermission(user, args.customerId)
     return this.bookingsService.create(args)
   }
 
-  @AllowAuthenticated('admin')
-  @Query(() => [Booking], { name: 'bookings' })
+  @AllowAuthenticated("admin")
+  @Query(() => [Booking], { name: "bookings" })
   findAll(@Args() args: FindManyBookingArgs) {
     return this.bookingsService.findAll(args)
   }
 
-  @AllowAuthenticated('valet')
-  @Query(() => [Booking], { name: 'bookingsForValet' })
+  @AllowAuthenticated("valet")
+  @Query(() => [Booking], { name: "bookingsForValet" })
   async bookingsForValet(
     @Args() args: FindManyBookingArgs,
     @GetUser() user: GetUserType,
@@ -65,7 +65,7 @@ export class BookingsResolver {
   }
 
   @AllowAuthenticated()
-  @Query(() => [Booking], { name: 'bookingsForCustomer' })
+  @Query(() => [Booking], { name: "bookingsForCustomer" })
   bookingsForCustomer(
     @Args() args: FindManyBookingArgs,
     @GetUser() user: GetUserType,
@@ -76,8 +76,8 @@ export class BookingsResolver {
     })
   }
 
-  @AllowAuthenticated('manager', 'admin')
-  @Query(() => [Booking], { name: 'bookingsForGarage' })
+  @AllowAuthenticated("manager", "admin")
+  @Query(() => [Booking], { name: "bookingsForGarage" })
   async bookingsForGarage(
     @Args()
     { cursor, distinct, orderBy, skip, take, where }: FindManyBookingArgs,
@@ -85,7 +85,7 @@ export class BookingsResolver {
   ) {
     const garageId = where.Slot.is.garageId.equals
     if (!garageId) {
-      throw new BadRequestException('Pass garage id in where.Slot.is.garageId')
+      throw new BadRequestException("Pass garage id in where.Slot.is.garageId")
     }
     const garage = await this.prisma.garage.findUnique({
       where: { id: garageId },
@@ -112,7 +112,7 @@ export class BookingsResolver {
 
   @Query(() => AggregateCountOutput)
   async bookingsCount(
-    @Args('where', { nullable: true })
+    @Args("where", { nullable: true })
     where: BookingWhereInput,
   ) {
     const bookings = await this.prisma.booking.aggregate({
@@ -122,7 +122,7 @@ export class BookingsResolver {
     return { count: bookings._count._all }
   }
 
-  @Query(() => Booking, { name: 'booking' })
+  @Query(() => Booking, { name: "booking" })
   findOne(@Args() args: FindUniqueBookingArgs) {
     return this.bookingsService.findOne(args)
   }
@@ -130,7 +130,7 @@ export class BookingsResolver {
   @AllowAuthenticated()
   @Mutation(() => Booking)
   async updateBooking(
-    @Args('updateBookingInput') args: UpdateBookingInput,
+    @Args("updateBookingInput") args: UpdateBookingInput,
     @GetUser() user: GetUserType,
   ) {
     const booking = await this.prisma.booking.findUnique({

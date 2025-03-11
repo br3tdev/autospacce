@@ -3,12 +3,12 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
-} from '@nestjs/common'
-import { GqlExecutionContext } from '@nestjs/graphql'
-import { JwtService } from '@nestjs/jwt'
-import { Reflector } from '@nestjs/core'
-import { Role } from 'src/common/types'
-import { PrismaService } from 'src/common/prisma/prisma.service'
+} from "@nestjs/common"
+import { GqlExecutionContext } from "@nestjs/graphql"
+import { JwtService } from "@nestjs/jwt"
+import { Reflector } from "@nestjs/core"
+import { Role } from "src/common/types"
+import { PrismaService } from "src/common/prisma/prisma.service"
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -29,10 +29,10 @@ export class AuthGuard implements CanActivate {
   private async authenticateUser(req: any): Promise<void> {
     const bearerHeader = req.headers.authorization
     // Bearer eylskfdjlsdf309
-    const token = bearerHeader?.split(' ')[1]
+    const token = bearerHeader?.split(" ")[1]
 
     if (!token) {
-      throw new UnauthorizedException('No token provided.')
+      throw new UnauthorizedException("No token provided.")
     }
 
     try {
@@ -40,26 +40,26 @@ export class AuthGuard implements CanActivate {
       const uid = payload.uid
       if (!uid) {
         throw new UnauthorizedException(
-          'Invalid token. No uid present in the token.',
+          "Invalid token. No uid present in the token.",
         )
       }
 
       const user = await this.prisma.user.findUnique({ where: { uid } })
       if (!user) {
         throw new UnauthorizedException(
-          'Invalid token. No user present with the uid.',
+          "Invalid token. No user present with the uid.",
         )
       }
 
-      console.log('jwt payload: ', payload)
+      console.log("jwt payload: ", payload)
       req.user = payload
     } catch (err) {
-      console.error('Token validation error:', err)
+      console.error("Token validation error:", err)
       throw err
     }
 
     if (!req.user) {
-      throw new UnauthorizedException('Invalid token.')
+      throw new UnauthorizedException("Invalid token.")
     }
   }
 
@@ -67,7 +67,7 @@ export class AuthGuard implements CanActivate {
     req: any,
     context: ExecutionContext,
   ): Promise<boolean> {
-    const requiredRoles = this.getMetadata<Role[]>('roles', context)
+    const requiredRoles = this.getMetadata<Role[]>("roles", context)
     const userRoles = await this.getUserRoles(req.user.uid)
     req.user.roles = userRoles
 
@@ -95,9 +95,9 @@ export class AuthGuard implements CanActivate {
       // Add promises for other role models here
     ])
 
-    admin && roles.push('admin')
-    manager && roles.push('manager')
-    valet && roles.push('valet')
+    admin && roles.push("admin")
+    manager && roles.push("manager")
+    valet && roles.push("valet")
 
     return roles
   }

@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common'
-import { FindManyCustomerArgs, FindUniqueCustomerArgs } from './dtos/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateCustomerInput } from './dtos/create-customer.input'
-import { UpdateCustomerInput } from './dtos/update-customer.input'
+import { Injectable } from "@nestjs/common"
+import { FindManyCustomerArgs, FindUniqueCustomerArgs } from "./dtos/find.args"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { CreateCustomerInput } from "./dtos/create-customer.input"
+import { UpdateCustomerInput } from "./dtos/update-customer.input"
 
 @Injectable()
 export class CustomersService {

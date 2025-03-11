@@ -1,11 +1,11 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { ReviewOrderByWithRelationInput } from './order-by.args'
-import { ReviewWhereInput, ReviewWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { ArgsType, Field, registerEnumType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { ReviewOrderByWithRelationInput } from "./order-by.args"
+import { ReviewWhereInput, ReviewWhereUniqueInput } from "./where.args"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 registerEnumType(Prisma.ReviewScalarFieldEnum, {
-  name: 'ReviewScalarFieldEnum',
+  name: "ReviewScalarFieldEnum",
 })
 
 @ArgsType()
@@ -13,7 +13,7 @@ class FindManyReviewArgsStrict
   implements
     RestrictProperties<
       FindManyReviewArgsStrict,
-      Omit<Prisma.ReviewFindManyArgs, 'include' | 'select'>
+      Omit<Prisma.ReviewFindManyArgs, "include" | "select">
     >
 {
   where: ReviewWhereInput

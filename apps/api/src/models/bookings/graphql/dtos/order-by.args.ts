@@ -1,10 +1,10 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
-import { BookingTimelineOrderByRelationAggregateInput } from 'src/models/booking-timelines/graphql/dtos/order-by.args'
-import { CustomerOrderByWithRelationInput } from 'src/models/customers/graphql/dtos/order-by.args'
-import { SlotOrderByWithRelationInput } from 'src/models/slots/graphql/dtos/order-by.args'
-import { ValetAssignmentOrderByWithRelationInput } from 'src/models/valet-assignments/graphql/dtos/order-by.args'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { RestrictProperties } from "src/common/dtos/common.input"
+import { BookingTimelineOrderByRelationAggregateInput } from "src/models/booking-timelines/graphql/dtos/order-by.args"
+import { CustomerOrderByWithRelationInput } from "src/models/customers/graphql/dtos/order-by.args"
+import { SlotOrderByWithRelationInput } from "src/models/slots/graphql/dtos/order-by.args"
+import { ValetAssignmentOrderByWithRelationInput } from "src/models/valet-assignments/graphql/dtos/order-by.args"
 
 @InputType()
 export class BookingOrderByWithRelationInputStrict

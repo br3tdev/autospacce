@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { FindManyBookingArgs, FindUniqueBookingArgs } from './dtos/find.args'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { CreateBookingInput } from './dtos/create-booking.input'
-import { UpdateBookingInput } from './dtos/update-booking.input'
-import { generateSixDigitNumber } from 'src/common/util'
-import { SlotType } from '@prisma/client'
+import { Injectable, NotFoundException } from "@nestjs/common"
+import { FindManyBookingArgs, FindUniqueBookingArgs } from "./dtos/find.args"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { CreateBookingInput } from "./dtos/create-booking.input"
+import { UpdateBookingInput } from "./dtos/update-booking.input"
+import { generateSixDigitNumber } from "src/common/util"
+import { SlotType } from "@prisma/client"
 
 @Injectable()
 export class BookingsService {
@@ -38,10 +38,10 @@ export class BookingsService {
     let endDate: Date
 
     // If startTime or endTime are strings, convert them to Date objects
-    if (typeof startTime === 'string') {
+    if (typeof startTime === "string") {
       startDate = new Date(startTime)
     }
-    if (typeof endTime === 'string') {
+    if (typeof endTime === "string") {
       endDate = new Date(endTime)
     }
 
@@ -53,7 +53,7 @@ export class BookingsService {
     })
 
     if (!slot) {
-      throw new NotFoundException('No slots found.')
+      throw new NotFoundException("No slots found.")
     }
 
     return this.prisma.$transaction(async (tx) => {
@@ -74,7 +74,7 @@ export class BookingsService {
         },
       })
       await tx.bookingTimeline.create({
-        data: { bookingId: booking.id, status: 'BOOKED' },
+        data: { bookingId: booking.id, status: "BOOKED" },
       })
 
       return booking

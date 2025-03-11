@@ -27,7 +27,6 @@
     "seed": "ts-node prisma/seed/index.ts"
   },
   "dependencies": {
-    "@autospacce/util": "*",
     "@apollo/server": "^4.10.2",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/common": "^9.0.0",

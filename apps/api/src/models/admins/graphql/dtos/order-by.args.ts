@@ -1,8 +1,8 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
-import { UserOrderByWithRelationInput } from 'src/models/users/graphql/dtos/order-by.args'
-import { VerificationOrderByRelationAggregateInput } from 'src/models/verifications/graphql/dtos/order-by.args'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { RestrictProperties } from "src/common/dtos/common.input"
+import { UserOrderByWithRelationInput } from "src/models/users/graphql/dtos/order-by.args"
+import { VerificationOrderByRelationAggregateInput } from "src/models/verifications/graphql/dtos/order-by.args"
 
 @InputType()
 export class AdminOrderByWithRelationInputStrict

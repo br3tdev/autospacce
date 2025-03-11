@@ -5,18 +5,18 @@ import {
   Args,
   ResolveField,
   Parent,
-} from '@nestjs/graphql'
-import { SlotsService } from './slots.service'
-import { ReturnCount, Slot } from './entity/slot.entity'
-import { FindManySlotArgs, FindUniqueSlotArgs } from './dtos/find.args'
-import { CreateSlotInput } from './dtos/create-slot.input'
-import { UpdateSlotInput } from './dtos/update-slot.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Garage } from 'src/models/garages/graphql/entity/garage.entity'
-import { Booking } from 'src/models/bookings/graphql/entity/booking.entity'
+} from "@nestjs/graphql"
+import { SlotsService } from "./slots.service"
+import { ReturnCount, Slot } from "./entity/slot.entity"
+import { FindManySlotArgs, FindUniqueSlotArgs } from "./dtos/find.args"
+import { CreateSlotInput } from "./dtos/create-slot.input"
+import { UpdateSlotInput } from "./dtos/update-slot.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Garage } from "src/models/garages/graphql/entity/garage.entity"
+import { Booking } from "src/models/bookings/graphql/entity/booking.entity"
 
 @Resolver(() => Slot)
 export class SlotsResolver {
@@ -28,7 +28,7 @@ export class SlotsResolver {
   @AllowAuthenticated()
   @Mutation(() => Slot)
   async createSlot(
-    @Args('createSlotInput') args: CreateSlotInput,
+    @Args("createSlotInput") args: CreateSlotInput,
     @GetUser() user: GetUserType,
   ) {
     const garage = await this.prisma.garage.findUnique({
@@ -42,11 +42,11 @@ export class SlotsResolver {
     return this.slotsService.create(args)
   }
 
-  @AllowAuthenticated('manager')
+  @AllowAuthenticated("manager")
   @Mutation(() => ReturnCount)
   async createManySlots(
-    @Args('createSlotInput') args: CreateSlotInput,
-    @Args('count', {
+    @Args("createSlotInput") args: CreateSlotInput,
+    @Args("count", {
       type: () => Number,
     })
     count: number,
@@ -78,12 +78,12 @@ export class SlotsResolver {
     return this.prisma.slot.createMany({ data: slots })
   }
 
-  @Query(() => [Slot], { name: 'slots' })
+  @Query(() => [Slot], { name: "slots" })
   findAll(@Args() args: FindManySlotArgs) {
     return this.slotsService.findAll(args)
   }
 
-  @Query(() => Slot, { name: 'slot' })
+  @Query(() => Slot, { name: "slot" })
   findOne(@Args() args: FindUniqueSlotArgs) {
     return this.slotsService.findOne(args)
   }
@@ -91,7 +91,7 @@ export class SlotsResolver {
   @AllowAuthenticated()
   @Mutation(() => Slot)
   async updateSlot(
-    @Args('updateSlotInput') args: UpdateSlotInput,
+    @Args("updateSlotInput") args: UpdateSlotInput,
     @GetUser() user: GetUserType,
   ) {
     const slot = await this.prisma.slot.findUnique({

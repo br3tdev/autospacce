@@ -5,20 +5,20 @@ import {
   Query,
   Mutation,
   Args,
-} from '@nestjs/graphql'
-import { ValetAssignmentsService } from './valet-assignments.service'
-import { ValetAssignment } from './entity/valet-assignment.entity'
+} from "@nestjs/graphql"
+import { ValetAssignmentsService } from "./valet-assignments.service"
+import { ValetAssignment } from "./entity/valet-assignment.entity"
 import {
   FindManyValetAssignmentArgs,
   FindUniqueValetAssignmentArgs,
-} from './dtos/find.args'
-import { CreateValetAssignmentInput } from './dtos/create-valet-assignment.input'
-import { UpdateValetAssignmentInput } from './dtos/update-valet-assignment.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Valet } from 'src/models/valets/graphql/entity/valet.entity'
+} from "./dtos/find.args"
+import { CreateValetAssignmentInput } from "./dtos/create-valet-assignment.input"
+import { UpdateValetAssignmentInput } from "./dtos/update-valet-assignment.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Valet } from "src/models/valets/graphql/entity/valet.entity"
 
 @Resolver(() => ValetAssignment)
 export class ValetAssignmentsResolver {
@@ -30,19 +30,19 @@ export class ValetAssignmentsResolver {
   @AllowAuthenticated()
   @Mutation(() => ValetAssignment)
   createValetAssignment(
-    @Args('createValetAssignmentInput') args: CreateValetAssignmentInput,
+    @Args("createValetAssignmentInput") args: CreateValetAssignmentInput,
     @GetUser() user: GetUserType,
   ) {
     checkRowLevelPermission(user, [args.pickupValetId, args.returnValetId])
     return this.valetAssignmentsService.create(args)
   }
 
-  @Query(() => [ValetAssignment], { name: 'valetAssignments' })
+  @Query(() => [ValetAssignment], { name: "valetAssignments" })
   findAll(@Args() args: FindManyValetAssignmentArgs) {
     return this.valetAssignmentsService.findAll(args)
   }
 
-  @Query(() => ValetAssignment, { name: 'valetAssignment' })
+  @Query(() => ValetAssignment, { name: "valetAssignment" })
   findOne(@Args() args: FindUniqueValetAssignmentArgs) {
     return this.valetAssignmentsService.findOne(args)
   }
@@ -50,7 +50,7 @@ export class ValetAssignmentsResolver {
   @AllowAuthenticated()
   @Mutation(() => ValetAssignment)
   async updateValetAssignment(
-    @Args('updateValetAssignmentInput') args: UpdateValetAssignmentInput,
+    @Args("updateValetAssignmentInput") args: UpdateValetAssignmentInput,
     @GetUser() user: GetUserType,
   ) {
     const valetAssignment = await this.prisma.valetAssignment.findUnique({

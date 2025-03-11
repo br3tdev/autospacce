@@ -1,16 +1,16 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { BookingTimelinesService } from './booking-timelines.service'
-import { BookingTimeline } from './entity/booking-timeline.entity'
+import { Resolver, Query, Mutation, Args } from "@nestjs/graphql"
+import { BookingTimelinesService } from "./booking-timelines.service"
+import { BookingTimeline } from "./entity/booking-timeline.entity"
 import {
   FindManyBookingTimelineArgs,
   FindUniqueBookingTimelineArgs,
-} from './dtos/find.args'
-import { CreateBookingTimelineInput } from './dtos/create-booking-timeline.input'
-import { UpdateBookingTimelineInput } from './dtos/update-booking-timeline.input'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { GetUserType } from 'src/common/types'
-import { checkRowLevelPermission } from 'src/common/auth/util'
+} from "./dtos/find.args"
+import { CreateBookingTimelineInput } from "./dtos/create-booking-timeline.input"
+import { UpdateBookingTimelineInput } from "./dtos/update-booking-timeline.input"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { GetUserType } from "src/common/types"
+import { checkRowLevelPermission } from "src/common/auth/util"
 
 @Resolver(() => BookingTimeline)
 export class BookingTimelinesResolver {
@@ -19,10 +19,10 @@ export class BookingTimelinesResolver {
     private readonly prisma: PrismaService,
   ) {}
 
-  @AllowAuthenticated('admin', 'manager')
+  @AllowAuthenticated("admin", "manager")
   @Mutation(() => BookingTimeline)
   async createBookingTimeline(
-    @Args('createBookingTimelineInput')
+    @Args("createBookingTimelineInput")
     { bookingId, status }: CreateBookingTimelineInput,
     @GetUser() user: GetUserType,
   ) {
@@ -59,25 +59,25 @@ export class BookingTimelinesResolver {
     return bookingTimeline
   }
 
-  @Query(() => [BookingTimeline], { name: 'bookingTimelines' })
+  @Query(() => [BookingTimeline], { name: "bookingTimelines" })
   findAll(@Args() args: FindManyBookingTimelineArgs) {
     return this.bookingTimelinesService.findAll(args)
   }
 
-  @Query(() => BookingTimeline, { name: 'bookingTimeline' })
+  @Query(() => BookingTimeline, { name: "bookingTimeline" })
   findOne(@Args() args: FindUniqueBookingTimelineArgs) {
     return this.bookingTimelinesService.findOne(args)
   }
 
-  @AllowAuthenticated('admin')
+  @AllowAuthenticated("admin")
   @Mutation(() => BookingTimeline)
   async updateBookingTimeline(
-    @Args('updateBookingTimelineInput') args: UpdateBookingTimelineInput,
+    @Args("updateBookingTimelineInput") args: UpdateBookingTimelineInput,
   ) {
     return this.bookingTimelinesService.update(args)
   }
 
-  @AllowAuthenticated('admin')
+  @AllowAuthenticated("admin")
   @Mutation(() => BookingTimeline)
   async removeBookingTimeline(@Args() args: FindUniqueBookingTimelineArgs) {
     return this.bookingTimelinesService.remove(args)

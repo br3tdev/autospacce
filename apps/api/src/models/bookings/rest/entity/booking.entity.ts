@@ -1,6 +1,6 @@
-import { $Enums, Booking } from '@prisma/client'
-import { IsDate, IsString, IsInt, IsOptional } from 'class-validator'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { $Enums, Booking } from "@prisma/client"
+import { IsDate, IsString, IsInt, IsOptional } from "class-validator"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 export class BookingEntity
   implements RestrictProperties<BookingEntity, Booking>

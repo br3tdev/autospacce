@@ -1,11 +1,11 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { CustomerOrderByWithRelationInput } from './order-by.args'
-import { CustomerWhereInput, CustomerWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { ArgsType, Field, registerEnumType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { CustomerOrderByWithRelationInput } from "./order-by.args"
+import { CustomerWhereInput, CustomerWhereUniqueInput } from "./where.args"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 registerEnumType(Prisma.CustomerScalarFieldEnum, {
-  name: 'CustomerScalarFieldEnum',
+  name: "CustomerScalarFieldEnum",
 })
 
 @ArgsType()
@@ -13,7 +13,7 @@ class FindManyCustomerArgsStrict
   implements
     RestrictProperties<
       FindManyCustomerArgsStrict,
-      Omit<Prisma.CustomerFindManyArgs, 'include' | 'select'>
+      Omit<Prisma.CustomerFindManyArgs, "include" | "select">
     >
 {
   where: CustomerWhereInput

@@ -5,17 +5,17 @@ import {
   Args,
   ResolveField,
   Parent,
-} from '@nestjs/graphql'
-import { AddressesService } from './addresses.service'
-import { Address } from './entity/address.entity'
-import { FindManyAddressArgs, FindUniqueAddressArgs } from './dtos/find.args'
-import { CreateAddressInput } from './dtos/create-address.input'
-import { UpdateAddressInput } from './dtos/update-address.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Garage } from 'src/models/garages/graphql/entity/garage.entity'
+} from "@nestjs/graphql"
+import { AddressesService } from "./addresses.service"
+import { Address } from "./entity/address.entity"
+import { FindManyAddressArgs, FindUniqueAddressArgs } from "./dtos/find.args"
+import { CreateAddressInput } from "./dtos/create-address.input"
+import { UpdateAddressInput } from "./dtos/update-address.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Garage } from "src/models/garages/graphql/entity/garage.entity"
 
 @Resolver(() => Address)
 export class AddressesResolver {
@@ -27,7 +27,7 @@ export class AddressesResolver {
   @AllowAuthenticated()
   @Mutation(() => Address)
   async createAddress(
-    @Args('createAddressInput') args: CreateAddressInput,
+    @Args("createAddressInput") args: CreateAddressInput,
     @GetUser() user: GetUserType,
   ) {
     const garage = await this.prisma.garage.findUnique({
@@ -41,12 +41,12 @@ export class AddressesResolver {
     return this.addressesService.create(args)
   }
 
-  @Query(() => [Address], { name: 'addresses' })
+  @Query(() => [Address], { name: "addresses" })
   findAll(@Args() args: FindManyAddressArgs) {
     return this.addressesService.findAll(args)
   }
 
-  @Query(() => Address, { name: 'address' })
+  @Query(() => Address, { name: "address" })
   findOne(@Args() args: FindUniqueAddressArgs) {
     return this.addressesService.findOne(args)
   }
@@ -54,7 +54,7 @@ export class AddressesResolver {
   @AllowAuthenticated()
   @Mutation(() => Address)
   async updateAddress(
-    @Args('updateAddressInput') args: UpdateAddressInput,
+    @Args("updateAddressInput") args: UpdateAddressInput,
     @GetUser() user: GetUserType,
   ) {
     const address = await this.prisma.address.findUnique({

@@ -1,13 +1,13 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { ReviewsService } from './reviews.service'
-import { Review } from './entity/review.entity'
-import { FindManyReviewArgs, FindUniqueReviewArgs } from './dtos/find.args'
-import { CreateReviewInput } from './dtos/create-review.input'
-import { UpdateReviewInput } from './dtos/update-review.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
+import { Resolver, Query, Mutation, Args } from "@nestjs/graphql"
+import { ReviewsService } from "./reviews.service"
+import { Review } from "./entity/review.entity"
+import { FindManyReviewArgs, FindUniqueReviewArgs } from "./dtos/find.args"
+import { CreateReviewInput } from "./dtos/create-review.input"
+import { UpdateReviewInput } from "./dtos/update-review.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
 
 @Resolver(() => Review)
 export class ReviewsResolver {
@@ -19,19 +19,19 @@ export class ReviewsResolver {
   @AllowAuthenticated()
   @Mutation(() => Review)
   createReview(
-    @Args('createReviewInput') args: CreateReviewInput,
+    @Args("createReviewInput") args: CreateReviewInput,
     @GetUser() user: GetUserType,
   ) {
     checkRowLevelPermission(user, args.customerId)
     return this.reviewsService.create(args)
   }
 
-  @Query(() => [Review], { name: 'reviews' })
+  @Query(() => [Review], { name: "reviews" })
   findAll(@Args() args: FindManyReviewArgs) {
     return this.reviewsService.findAll(args)
   }
 
-  @Query(() => Review, { name: 'review' })
+  @Query(() => Review, { name: "review" })
   findOne(@Args() args: FindUniqueReviewArgs) {
     return this.reviewsService.findOne(args)
   }
@@ -39,7 +39,7 @@ export class ReviewsResolver {
   @AllowAuthenticated()
   @Mutation(() => Review)
   async updateReview(
-    @Args('updateReviewInput') args: UpdateReviewInput,
+    @Args("updateReviewInput") args: UpdateReviewInput,
     @GetUser() user: GetUserType,
   ) {
     const review = await this.prisma.review.findUnique({

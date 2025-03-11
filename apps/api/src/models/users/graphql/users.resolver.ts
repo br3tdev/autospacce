@@ -5,25 +5,25 @@ import {
   Args,
   ResolveField,
   Parent,
-} from '@nestjs/graphql'
-import { UsersService } from './users.service'
-import { AuthProvider, User } from './entity/user.entity'
-import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
+} from "@nestjs/graphql"
+import { UsersService } from "./users.service"
+import { AuthProvider, User } from "./entity/user.entity"
+import { FindManyUserArgs, FindUniqueUserArgs } from "./dtos/find.args"
 import {
   LoginInput,
   LoginOutput,
   RegisterWithCredentialsInput,
   RegisterWithProviderInput,
-} from './dtos/create-user.input'
-import { UpdateUserInput } from './dtos/update-user.input'
-import { checkRowLevelPermission } from 'src/common/auth/util'
-import { GetUserType } from 'src/common/types'
-import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
-import { PrismaService } from 'src/common/prisma/prisma.service'
-import { Admin } from 'src/models/admins/graphql/entity/admin.entity'
-import { Manager } from 'src/models/managers/graphql/entity/manager.entity'
-import { Valet } from 'src/models/valets/graphql/entity/valet.entity'
-import { Customer } from 'src/models/customers/graphql/entity/customer.entity'
+} from "./dtos/create-user.input"
+import { UpdateUserInput } from "./dtos/update-user.input"
+import { checkRowLevelPermission } from "src/common/auth/util"
+import { GetUserType } from "src/common/types"
+import { AllowAuthenticated, GetUser } from "src/common/auth/auth.decorator"
+import { PrismaService } from "src/common/prisma/prisma.service"
+import { Admin } from "src/models/admins/graphql/entity/admin.entity"
+import { Manager } from "src/models/managers/graphql/entity/manager.entity"
+import { Valet } from "src/models/valets/graphql/entity/valet.entity"
+import { Customer } from "src/models/customers/graphql/entity/customer.entity"
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -34,7 +34,7 @@ export class UsersResolver {
 
   @Mutation(() => User)
   async registerWithCredentials(
-    @Args('registerWithCredentialsInput')
+    @Args("registerWithCredentialsInput")
     args: RegisterWithCredentialsInput,
   ) {
     return this.usersService.registerWithCredentials(args)
@@ -42,13 +42,13 @@ export class UsersResolver {
 
   @Mutation(() => User)
   async registerWithProvider(
-    @Args('registerWithProviderInput') args: RegisterWithProviderInput,
+    @Args("registerWithProviderInput") args: RegisterWithProviderInput,
   ) {
     return this.usersService.registerWithProvider(args)
   }
 
   @Mutation(() => LoginOutput)
-  async login(@Args('loginInput') args: LoginInput) {
+  async login(@Args("loginInput") args: LoginInput) {
     return this.usersService.login(args)
   }
 
@@ -58,12 +58,12 @@ export class UsersResolver {
     return this.usersService.findOne({ where: { uid: user.uid } })
   }
 
-  @Query(() => [User], { name: 'users' })
+  @Query(() => [User], { name: "users" })
   findAll(@Args() args: FindManyUserArgs) {
     return this.usersService.findAll(args)
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: "user" })
   findOne(@Args() args: FindUniqueUserArgs) {
     return this.usersService.findOne(args)
   }
@@ -71,7 +71,7 @@ export class UsersResolver {
   @AllowAuthenticated()
   @Mutation(() => User)
   async updateUser(
-    @Args('updateUserInput') args: UpdateUserInput,
+    @Args("updateUserInput") args: UpdateUserInput,
     @GetUser() user: GetUserType,
   ) {
     const userInfo = await this.prisma.user.findUnique({
@@ -92,8 +92,8 @@ export class UsersResolver {
     return this.usersService.remove(args)
   }
 
-  @Query(() => AuthProvider, { name: 'getAuthProvider', nullable: true })
-  getAuthProvider(@Args('uid') uid: string) {
+  @Query(() => AuthProvider, { name: "getAuthProvider", nullable: true })
+  getAuthProvider(@Args("uid") uid: string) {
     return this.prisma.authProvider.findUnique({ where: { uid } })
   }
 

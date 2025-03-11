@@ -1,14 +1,14 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
 import {
   DateTimeFilter,
   FloatFilter,
   IntFilter,
   RestrictProperties,
   StringFilter,
-} from 'src/common/dtos/common.input'
-import { BookingRelationFilter } from 'src/models/bookings/graphql/dtos/where.args'
-import { ValetRelationFilter } from 'src/models/valets/graphql/dtos/where.args'
+} from "src/common/dtos/common.input"
+import { BookingRelationFilter } from "src/models/bookings/graphql/dtos/where.args"
+import { ValetRelationFilter } from "src/models/valets/graphql/dtos/where.args"
 
 @InputType()
 export class ValetAssignmentWhereUniqueInput {

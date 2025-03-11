@@ -1,9 +1,9 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { $Enums, Slot as SlotType } from '@prisma/client'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { Field, ObjectType, registerEnumType } from "@nestjs/graphql"
+import { $Enums, Slot as SlotType } from "@prisma/client"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 registerEnumType($Enums.SlotType, {
-  name: 'SlotType',
+  name: "SlotType",
 })
 
 @ObjectType()

@@ -1,17 +1,17 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Field, InputType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
 import {
   DateTimeFilter,
   IntFilter,
   RestrictProperties,
   StringFilter,
   StringListFilter,
-} from 'src/common/dtos/common.input'
-import { AddressRelationFilter } from 'src/models/addresses/graphql/dtos/where.args'
-import { CompanyRelationFilter } from 'src/models/companies/graphql/dtos/where.args'
-import { ReviewListRelationFilter } from 'src/models/reviews/graphql/dtos/where.args'
-import { SlotListRelationFilter } from 'src/models/slots/graphql/dtos/where.args'
-import { VerificationRelationFilter } from 'src/models/verifications/graphql/dtos/where.args'
+} from "src/common/dtos/common.input"
+import { AddressRelationFilter } from "src/models/addresses/graphql/dtos/where.args"
+import { CompanyRelationFilter } from "src/models/companies/graphql/dtos/where.args"
+import { ReviewListRelationFilter } from "src/models/reviews/graphql/dtos/where.args"
+import { SlotListRelationFilter } from "src/models/slots/graphql/dtos/where.args"
+import { VerificationRelationFilter } from "src/models/verifications/graphql/dtos/where.args"
 
 @InputType()
 export class GarageWhereUniqueInput {

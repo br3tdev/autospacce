@@ -1,11 +1,11 @@
-import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
-import { ManagerOrderByWithRelationInput } from './order-by.args'
-import { ManagerWhereInput, ManagerWhereUniqueInput } from './where.args'
-import { RestrictProperties } from 'src/common/dtos/common.input'
+import { ArgsType, Field, registerEnumType, PartialType } from "@nestjs/graphql"
+import { Prisma } from "@prisma/client"
+import { ManagerOrderByWithRelationInput } from "./order-by.args"
+import { ManagerWhereInput, ManagerWhereUniqueInput } from "./where.args"
+import { RestrictProperties } from "src/common/dtos/common.input"
 
 registerEnumType(Prisma.ManagerScalarFieldEnum, {
-  name: 'ManagerScalarFieldEnum',
+  name: "ManagerScalarFieldEnum",
 })
 
 @ArgsType()
@@ -13,7 +13,7 @@ class FindManyManagerArgsStrict
   implements
     RestrictProperties<
       FindManyManagerArgsStrict,
-      Omit<Prisma.ManagerFindManyArgs, 'include' | 'select'>
+      Omit<Prisma.ManagerFindManyArgs, "include" | "select">
     >
 {
   where: ManagerWhereInput
